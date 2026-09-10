@@ -256,6 +256,33 @@ def get_week_progress(week_number):
     }
 
 
+def get_all_weeks_status():
+    """Per curriculum week: how many of its days are completed, out of how
+    many total, and whether the week is fully done. Days never visited by
+    resolve_today() yet simply have no row (treated as not completed) —
+    this never needs to lazily create rows for days far in the future."""
+    db = get_db()
+    weeks = {}
+    for day in content.iter_days():
+        weeks.setdefault(day["week"], []).append(day["day_key"])
+
+    result = {}
+    for week, day_keys in weeks.items():
+        placeholders = ",".join("?" for _ in day_keys)
+        rows = db.execute(
+            f"SELECT status FROM day_progress WHERE day_key IN ({placeholders})",
+            day_keys,
+        ).fetchall()
+        completed = sum(1 for r in rows if r["status"] == STATUS_COMPLETED)
+        total = len(day_keys)
+        result[week] = {
+            "completed_days": completed,
+            "total_days": total,
+            "is_complete": total > 0 and completed == total,
+        }
+    return result
+
+
 def get_streak():
     """Consecutive study days (rest days don't break it) with at least one
     completed block, walking backward from today."""

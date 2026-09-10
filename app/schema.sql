@@ -43,3 +43,96 @@ CREATE TABLE IF NOT EXISTS block_logs (
 
 CREATE INDEX IF NOT EXISTS idx_block_logs_block_key ON block_logs(block_key);
 CREATE INDEX IF NOT EXISTS idx_block_progress_day_key ON block_progress(day_key);
+
+-- ---------------------------------------------------------------------
+-- Phase 2: Weekly Accountability Quiz + Readiness Score
+-- ---------------------------------------------------------------------
+
+-- A generated quiz for one week, frozen at generation time (so the answer
+-- key used to grade it never drifts from what the user was actually shown,
+-- even if content/quizzes/*.json is edited later).
+CREATE TABLE IF NOT EXISTS quiz_instances (
+    id             INTEGER PRIMARY KEY AUTOINCREMENT,
+    week           INTEGER NOT NULL,
+    questions_json TEXT NOT NULL, -- [{id, prompt, options, answer_index, topic, source_week}, ...]
+    status         TEXT NOT NULL DEFAULT 'pending', -- pending | submitted
+    score          INTEGER,
+    total          INTEGER,
+    answers_json   TEXT,          -- {question_id: chosen_index}
+    created_at     TEXT NOT NULL,
+    submitted_at   TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_quiz_instances_week ON quiz_instances(week);
+
+-- ---------------------------------------------------------------------
+-- Phase 3: Certification Tracker + Portfolio Module
+-- ---------------------------------------------------------------------
+
+-- Mutable status/notes for each certification seeded in
+-- content/certifications.json (keyed by a slug of its name). The seed file
+-- stays research-editable content; this table is just the user's tracked
+-- progress against it, same split as curriculum content vs. day_progress.
+CREATE TABLE IF NOT EXISTS cert_progress (
+    cert_key   TEXT PRIMARY KEY,
+    status     TEXT NOT NULL DEFAULT 'not_started', -- not_started | in_progress | done
+    notes      TEXT,
+    updated_at TEXT NOT NULL
+);
+
+-- Generic versioned-document store, reused by the Portfolio module (the
+-- rollout plan + story bank) and the Resume module (master resume + one
+-- variant per target role). doc_key examples: "portfolio:rollout_plan",
+-- "resume:master", "resume:variant:PMO". Every save inserts a new row —
+-- the "current" version of a doc_key is simply its highest id.
+CREATE TABLE IF NOT EXISTS doc_versions (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    doc_key    TEXT NOT NULL,
+    content    TEXT NOT NULL,
+    notes      TEXT,             -- e.g. translation-layer notes for a resume variant
+    created_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_doc_versions_doc_key ON doc_versions(doc_key, id);
+
+-- ---------------------------------------------------------------------
+-- Phase 4/5 support: mock interview log (feeds readiness score) and the
+-- Job Discovery module (manual-refresh postings + application tracker).
+-- ---------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS mock_interviews (
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    practiced_on TEXT NOT NULL, -- date
+    topic        TEXT,
+    score        INTEGER,       -- 0-100, self-rated
+    notes        TEXT,
+    created_at   TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS job_postings (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    company    TEXT NOT NULL,
+    title      TEXT NOT NULL,
+    location   TEXT,
+    url        TEXT,
+    priority   INTEGER NOT NULL DEFAULT 0, -- 1 if company matches priority_companies.json
+    status     TEXT NOT NULL DEFAULT 'new', -- new | interested | applied | rejected | archived
+    notes      TEXT,
+    created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS applications (
+    id                INTEGER PRIMARY KEY AUTOINCREMENT,
+    job_posting_id    INTEGER REFERENCES job_postings(id),
+    company           TEXT NOT NULL,
+    role              TEXT NOT NULL,
+    date_applied      TEXT NOT NULL,
+    status            TEXT NOT NULL DEFAULT 'applied', -- applied|phone_screen|interview|offer|rejected|withdrawn
+    resume_version_id INTEGER REFERENCES doc_versions(id),
+    notes             TEXT,
+    created_at        TEXT NOT NULL,
+    updated_at        TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_job_postings_status ON job_postings(status);
+CREATE INDEX IF NOT EXISTS idx_applications_status ON applications(status);

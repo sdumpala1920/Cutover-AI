@@ -98,3 +98,45 @@ def get_certifications():
         return []
     with open(path, "r") as f:
         return json.load(f)
+
+
+def get_priority_companies():
+    path = current_app.config["PRIORITY_COMPANIES_PATH"]
+    if not os.path.exists(path):
+        return []
+    with open(path, "r") as f:
+        return json.load(f)
+
+
+# ---------------------------------------------------------------------
+# Weekly Accountability Quiz content — content/quizzes/week_NN.json
+# ---------------------------------------------------------------------
+
+def get_all_quiz_weeks():
+    """Every quiz file, sorted by week, regardless of seeded/placeholder."""
+    quizzes_dir = current_app.config["QUIZZES_DIR"]
+    if not os.path.isdir(quizzes_dir):
+        return []
+    weeks = []
+    for name in sorted(os.listdir(quizzes_dir)):
+        if name.endswith(".json"):
+            with open(os.path.join(quizzes_dir, name), "r") as f:
+                weeks.append(json.load(f))
+    weeks.sort(key=lambda w: w["week"])
+    return weeks
+
+
+def get_quiz_for_week(week_number):
+    for w in get_all_quiz_weeks():
+        if w["week"] == week_number:
+            return w
+    return None
+
+
+def get_seeded_quiz_weeks_before(week_number):
+    """Seeded quiz weeks strictly before week_number, used as the pool for
+    spaced-repetition review questions."""
+    return [
+        w for w in get_all_quiz_weeks()
+        if w.get("status") == "seeded" and w["week"] < week_number
+    ]
