@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Sunday Check · Cutover to AI{% endblock %}
+
+{% block content %}
+<header class="topbar">
+    <div class="topbar-date">
+        <div class="eyebrow">Weekly Accountability Quiz</div>
+        <h1>Sunday Check</h1>
+    </div>
+</header>
+
+<main class="today-main">
+    {% if weak_topics %}
+    <section class="session-card weak-topics-card">
+        <h3>Topics to review</h3>
+        <ul>
+            {% for t in weak_topics %}
+            <li>{{ t.topic }} — {{ t.percent }}% correct ({{ t.correct }}/{{ t.total }})</li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    {% if instance %}
+    <section class="session-card">
+        <div class="session-meta">
+            <span class="pill">Week {{ next_week }} Quiz</span>
+        </div>
+        <h2 class="session-title">{{ questions | length }} questions</h2>
+        <form method="post" action="{{ url_for('quiz.submit', instance_id=instance.id) }}" class="quiz-form">
+            {% for q in questions %}
+            <div class="quiz-question">
+                <p class="quiz-prompt">{{ loop.index }}. {{ q.prompt }}{% if q.is_review %} <span class="pill pill-muted">review</span>{% endif %}</p>
+                <div class="quiz-options">
+                    {% for opt in q.options %}
+                    <label class="quiz-option">
+                        <input type="radio" name="q_{{ q.id }}" value="{{ loop.index0 }}" required>
+                        {{ opt }}
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Submit quiz</button>
+        </form>
+    </section>
+    {% else %}
+    <section class="session-card awaiting-content">
+        <h2>No quiz available yet</h2>
+        <p>Finish this week's curriculum days first — the quiz unlocks once a full week is complete.</p>
+    </section>
+    {% endif %}
+
+    {% if history %}
+    <section class="session-card">
+        <h3>Quiz history</h3>
+        <table class="simple-table">
+            <thead><tr><th>Week</th><th>Score</th><th>Date</th><th></th></tr></thead>
+            <tbody>
+                {% for h in history %}
+                <tr>
+                    <td>Week {{ h.week }}</td>
+                    <td>{{ h.score }}/{{ h.total }} ({{ (100 * h.score / h.total) | round | int }}%)</td>
+                    <td>{{ h.submitted_at }}</td>
+                    <td>
+                        <form method="post" action="{{ url_for('quiz.retake', week=h.week) }}">
+                            <button type="submit" class="btn btn-small btn-secondary">Retake</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    {% endif %}
+</main>
+{% endblock %}

@@ -1,5 +1,12 @@
 import os
 
+try:
+    from dotenv import load_dotenv
+
+    load_dotenv()  # reads a .env file in the project root, if present
+except ImportError:
+    pass
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SQLite persistence — logged time, timer state, quiz scores, etc.
@@ -54,3 +61,15 @@ READINESS_CATEGORIES = {
     "Communication & Portfolio": {"weeks": [5, 6, 9, 10], "uses_portfolio": True},
     "Interview Readiness": {"weeks": [11, 12], "uses_mock_interviews": True},
 }
+
+# ---------------------------------------------------------------------
+# Conversational Coach ("Elena Marsh" persona — internal only, never
+# surfaced in the UI). Requires the user's own Anthropic API key, read
+# from the environment (or a .env file — see .env.example).
+# ---------------------------------------------------------------------
+ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+COACH_MODEL = os.environ.get("COACH_MODEL", "claude-opus-5")
+COACH_EFFORT = os.environ.get("COACH_EFFORT", "medium")  # low|medium|high|xhigh|max
+COACH_MAX_TOKENS = int(os.environ.get("COACH_MAX_TOKENS", "1024"))
+COACH_BITESIZE_MINUTES = 10  # gentle "wrap up soon" nudge threshold
+COACH_RECENT_SESSIONS_FOR_CONTEXT = 3

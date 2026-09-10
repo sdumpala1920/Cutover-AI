@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Application Tracker · Cutover to AI{% endblock %}
+
+{% block content %}
+<header class="topbar">
+    <div class="topbar-date">
+        <div class="eyebrow">Job Discovery</div>
+        <h1>Application Tracker</h1>
+    </div>
+    <a href="{{ url_for('jobs.index') }}" class="btn btn-secondary btn-small">← Postings</a>
+</header>
+
+<main class="today-main">
+    <section class="session-card">
+        <h3>Log an application</h3>
+        <form method="post" action="{{ url_for('jobs.add_application') }}" class="job-form">
+            <input type="text" name="company" placeholder="Company" required>
+            <input type="text" name="role" placeholder="Role" required>
+            <input type="date" name="date_applied">
+            <select name="job_posting_id">
+                <option value="">(no linked posting)</option>
+                {% for p in postings %}
+                <option value="{{ p.id }}">{{ p.company }} — {{ p.title }}</option>
+                {% endfor %}
+            </select>
+            <select name="resume_version_id">
+                <option value="">(resume version used)</option>
+                {% for r in resume_versions %}
+                <option value="{{ r.id }}">{{ r.doc_key.split(':')[-1] }} — {{ r.created_at }}</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="notes" placeholder="Notes">
+            <button type="submit" class="btn btn-primary btn-small">Log application</button>
+        </form>
+    </section>
+
+    <section class="session-card">
+        <table class="simple-table">
+            <thead><tr><th>Company</th><th>Role</th><th>Applied</th><th>Resume used</th><th>Status</th></tr></thead>
+            <tbody>
+                {% for a in apps %}
+                <tr>
+                    <td>{{ a.company }}</td>
+                    <td>{{ a.role }}</td>
+                    <td>{{ a.date_applied }}</td>
+                    <td class="muted">{{ a.resume_doc_key.split(':')[-1] if a.resume_doc_key else '—' }}</td>
+                    <td>
+                        <form method="post" action="{{ url_for('jobs.update_application_status', app_id=a.id) }}">
+                            <select name="status" onchange="this.form.submit()">
+                                {% for s in ['applied','phone_screen','interview','offer','rejected','withdrawn'] %}
+                                <option value="{{ s }}" {{ 'selected' if a.status == s }}>{{ s.replace('_',' ') }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</main>
+{% endblock %}

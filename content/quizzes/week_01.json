@@ -1,0 +1,102 @@
+{
+  "week": 1,
+  "status": "seeded",
+  "questions": [
+    {
+      "id": "w1q1",
+      "topic": "Core Vocabulary",
+      "prompt": "Which best describes the relationship between AI, machine learning, and generative AI?",
+      "options": [
+        "They're interchangeable terms for the same thing",
+        "AI is the broad field; machine learning is one approach within it; generative AI is a subset of ML focused on creating new content",
+        "Generative AI is the broad field that contains AI and machine learning",
+        "Machine learning is a marketing term with no technical meaning"
+      ],
+      "answer_index": 1
+    },
+    {
+      "id": "w1q2",
+      "topic": "Core Vocabulary",
+      "prompt": "What is a \"hallucination\" in the context of an LLM?",
+      "options": [
+        "A deliberate creative-writing feature you can turn on",
+        "When the model refuses to answer a question",
+        "When the model confidently generates false or fabricated information",
+        "A type of image the model can generate"
+      ],
+      "answer_index": 2
+    },
+    {
+      "id": "w1q3",
+      "topic": "Core Vocabulary",
+      "prompt": "What does RAG (Retrieval-Augmented Generation) primarily add to an LLM's capability?",
+      "options": [
+        "The ability to retrieve and ground responses in external/current data rather than only its training data",
+        "The ability to generate images instead of text",
+        "Faster response times with no other change",
+        "The ability to fine-tune itself automatically"
+      ],
+      "answer_index": 0
+    },
+    {
+      "id": "w1q4",
+      "topic": "Core Vocabulary",
+      "prompt": "A \"foundation model\" refers to:",
+      "options": [
+        "A small model trained for one narrow task only",
+        "A large, broadly-trained model (like GPT or Claude) that can be adapted to many downstream tasks",
+        "The first AI model ever built",
+        "A model that only runs on-premise, never in the cloud"
+      ],
+      "answer_index": 1
+    },
+    {
+      "id": "w1q5",
+      "topic": "Responsible AI",
+      "prompt": "Which of these is a core responsible-AI concern covered in Google AI Essentials Module 2?",
+      "options": [
+        "Making sure the AI's interface uses a pleasing color scheme",
+        "Bias, privacy, transparency, and human oversight in AI systems",
+        "Reducing the model's file size for storage",
+        "Maximizing token throughput per second"
+      ],
+      "answer_index": 1
+    },
+    {
+      "id": "w1q6",
+      "topic": "Prompting",
+      "prompt": "According to Google AI Essentials Module 3, what most improves the usefulness of an AI's output?",
+      "options": [
+        "Always using the shortest possible prompt",
+        "Giving clear context, being specific about the desired output, and iterating on the prompt",
+        "Only ever asking yes/no questions",
+        "Avoiding follow-up questions entirely"
+      ],
+      "answer_index": 1
+    },
+    {
+      "id": "w1q7",
+      "topic": "Transformation Playbook",
+      "prompt": "Per DeepLearning.AI's \"AI For Everyone\" transformation playbook, which is a recommended early step for an organization adopting AI?",
+      "options": [
+        "Buy the most expensive AI vendor contract available immediately",
+        "Skip pilot projects and roll out company-wide on day one",
+        "Identify concrete use cases, run a pilot, and build internal AI literacy before scaling",
+        "Only work with data scientists — no other departments need involvement"
+      ],
+      "answer_index": 2
+    },
+    {
+      "id": "w1q8",
+      "topic": "Core Vocabulary",
+      "prompt": "In plain terms, an \"AI agent\" is best described as:",
+      "options": [
+        "A person who sells AI software",
+        "A system that can take a goal, make decisions, and take multi-step actions (often using tools) to accomplish it",
+        "A synonym for a chatbot with no other distinguishing features",
+        "A physical robot only"
+      ],
+      "answer_index": 1
+    }
+  ]
+}

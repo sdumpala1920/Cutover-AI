@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Coach · Cutover to AI{% endblock %}
+
+{% block content %}
+<header class="topbar">
+    <div class="topbar-date">
+        <div class="eyebrow">Conversational Coach</div>
+        <h1>Talk it through</h1>
+    </div>
+</header>
+
+<main class="today-main">
+    {% if not configured %}
+    <section class="session-card awaiting-content">
+        <h2>Coach isn't set up yet</h2>
+        <p>This feature needs an Anthropic API key. Copy <code>.env.example</code> to <code>.env</code> in the project folder and paste your key in, then restart the app.</p>
+        <p class="muted">Get a key at console.anthropic.com — this is separate from a claude.ai subscription and is billed pay-as-you-go per use.</p>
+    </section>
+    {% else %}
+    <section class="session-card">
+        <h3>Start a session</h3>
+        <form method="post" action="{{ url_for('coach.start') }}" class="coach-start-form">
+            <div class="mode-choice">
+                <label><input type="radio" name="mode" value="coaching" checked> Coaching session <span class="muted">— talk through a goal or challenge</span></label>
+                <label><input type="radio" name="mode" value="practice"> Practice mode <span class="muted">— role-play a talk, pitch, or hard conversation</span></label>
+            </div>
+            <input type="text" name="topic" placeholder="What do you want to work on? (optional)" value="{{ request.args.get('topic', '') }}">
+            <button type="submit" class="btn btn-primary">Start</button>
+        </form>
+        <p class="muted">Sessions are bite-sized by default (~5-10 min) — go deeper anytime, or wrap up with one clear next step whenever you're ready.</p>
+    </section>
+
+    {% if sessions %}
+    <section class="session-card">
+        <h3>Past sessions</h3>
+        <ul class="session-history-list">
+            {% for s in sessions %}
+            <li>
+                <a href="{{ url_for('coach.session_view', session_id=s.id) }}">
+                    {{ s.mode }}{% if s.topic %} — {{ s.topic }}{% endif %}
+                </a>
+                <span class="muted">{{ s.started_at }}</span>
+                {% if s.status == 'active' %}<span class="pill pill-muted">in progress</span>{% endif %}
+                {% if s.recap %}<div class="session-recap-preview">→ {{ s.recap }}</div>{% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+    {% endif %}
+</main>
+{% endblock %}

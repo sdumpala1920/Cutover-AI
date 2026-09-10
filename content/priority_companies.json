@@ -1,0 +1,12 @@
+[
+  {"company": "Anthropic", "tier": "dream", "careers_url": "https://www.anthropic.com/careers", "note": "Dream company #1 — Applied AI / TPM roles"},
+  {"company": "OpenAI", "tier": "dream", "careers_url": "https://openai.com/careers/search", "note": "Dream company #2"},
+  {"company": "Deloitte", "tier": "consulting", "careers_url": "https://apply.deloitte.com/careers", "note": "Major AI consulting practice"},
+  {"company": "Accenture", "tier": "consulting", "careers_url": "https://www.accenture.com/us-en/careers", "note": "Major AI consulting practice"},
+  {"company": "KPMG", "tier": "consulting", "careers_url": "https://www.kpmguscareers.com/", "note": "Major AI consulting practice"},
+  {"company": "EY", "tier": "consulting", "careers_url": "https://www.ey.com/en_us/careers", "note": "Major AI consulting practice"},
+  {"company": "Oracle", "tier": "cloud_vendor", "careers_url": "https://www.oracle.com/careers/", "note": "Cloud vendor enterprise AI/strategy team — also your existing domain"},
+  {"company": "Microsoft", "tier": "cloud_vendor", "careers_url": "https://careers.microsoft.com/", "note": "Cloud vendor enterprise AI/strategy team"},
+  {"company": "Google", "tier": "cloud_vendor", "careers_url": "https://www.google.com/about/careers/applications/", "note": "Cloud vendor enterprise AI/strategy team"},
+  {"company": "Amazon Web Services", "tier": "cloud_vendor", "careers_url": "https://www.amazon.jobs/en/teams/AWS", "note": "Cloud vendor enterprise AI/strategy team"}
+]

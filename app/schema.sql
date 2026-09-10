@@ -136,3 +136,29 @@ CREATE TABLE IF NOT EXISTS applications (
 
 CREATE INDEX IF NOT EXISTS idx_job_postings_status ON job_postings(status);
 CREATE INDEX IF NOT EXISTS idx_applications_status ON applications(status);
+
+-- ---------------------------------------------------------------------
+-- Conversational Coach (chat-based, turn-based dialogue with the hidden
+-- "Elena Marsh" persona — see app/coach.py). One row per session; the
+-- session's `recap` holds the single next step it closed on.
+-- ---------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS coaching_sessions (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    mode       TEXT NOT NULL DEFAULT 'coaching', -- coaching | practice
+    topic      TEXT,
+    status     TEXT NOT NULL DEFAULT 'active',   -- active | ended
+    recap      TEXT,        -- the one next step, captured when the session ends
+    started_at TEXT NOT NULL,
+    ended_at   TEXT
+);
+
+CREATE TABLE IF NOT EXISTS coaching_messages (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    session_id INTEGER NOT NULL REFERENCES coaching_sessions(id),
+    role       TEXT NOT NULL, -- user | coach
+    content    TEXT NOT NULL,
+    created_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_coaching_messages_session ON coaching_messages(session_id, id);

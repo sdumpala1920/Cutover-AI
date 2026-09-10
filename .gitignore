@@ -8,3 +8,4 @@ data/*.sqlite3
 .DS_Store
 *.egg-info/
 .pytest_cache/
+.env

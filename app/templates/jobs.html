@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Job Discovery · Cutover to AI{% endblock %}
+
+{% block content %}
+<header class="topbar">
+    <div class="topbar-date">
+        <div class="eyebrow">Job Discovery — manual-refresh workflow</div>
+        <h1>Jobs</h1>
+    </div>
+    <a href="{{ url_for('jobs.applications') }}" class="btn btn-secondary btn-small">Application tracker →</a>
+</header>
+
+<main class="today-main">
+    <section class="session-card">
+        <h3>Weekly refresh checklist</h3>
+        <p class="muted">Click through each priority company's careers page, search for your target titles (AI Program Manager, AI Strategy, Chief of Staff, AI Governance, Technical Program Manager), and add anything relevant below.</p>
+        <ul class="priority-company-list">
+            {% for c in priority_companies %}
+            <li>
+                <a href="{{ c.careers_url }}" target="_blank">{{ c.company }}</a>
+                <span class="pill pill-muted">{{ c.tier.replace('_',' ') }}</span>
+                <span class="muted">{{ c.note }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="session-card">
+        <h3>Add a posting</h3>
+        <form method="post" action="{{ url_for('jobs.add') }}" class="job-form">
+            <input type="text" name="company" placeholder="Company" required>
+            <input type="text" name="title" placeholder="Role title" required>
+            <input type="text" name="location" placeholder="Location (Remote US / Atlanta hybrid / etc.)">
+            <input type="url" name="url" placeholder="Posting URL">
+            <input type="text" name="notes" placeholder="Notes">
+            <button type="submit" class="btn btn-primary btn-small">Add</button>
+        </form>
+    </section>
+
+    <section class="session-card">
+        <h3>Tracked postings</h3>
+        <table class="simple-table">
+            <thead><tr><th>Company</th><th>Role</th><th>Location</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+                {% for p in postings %}
+                <tr class="{{ 'priority-row' if p.priority }}">
+                    <td>{{ p.company }}{% if p.priority %} ⭐{% endif %}</td>
+                    <td>{% if p.url %}<a href="{{ p.url }}" target="_blank">{{ p.title }}</a>{% else %}{{ p.title }}{% endif %}</td>
+                    <td>{{ p.location }}</td>
+                    <td>
+                        <form method="post" action="{{ url_for('jobs.update_status', posting_id=p.id) }}">
+                            <select name="status" onchange="this.form.submit()">
+                                {% for s in ['new','interested','applied','rejected','archived'] %}
+                                <option value="{{ s }}" {{ 'selected' if p.status == s }}>{{ s }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </td>
+                    <td class="muted">{{ p.notes }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</main>
+{% endblock %}

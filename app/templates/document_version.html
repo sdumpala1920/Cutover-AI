@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ label }} — version · Cutover to AI{% endblock %}
+
+{% block content %}
+<header class="topbar">
+    <div class="topbar-date">
+        <div class="eyebrow">Version history</div>
+        <h1>{{ label }}</h1>
+    </div>
+</header>
+<main class="today-main">
+    <section class="session-card">
+        {% if version %}
+        <p class="muted">Saved {{ version.created_at }}</p>
+        <pre class="doc-preview">{{ version.content }}</pre>
+        {% if version.notes %}<p class="block-desc"><strong>Notes:</strong> {{ version.notes }}</p>{% endif %}
+        <form method="post" action="{{ url_for('documents.restore_version', doc_key=doc_key, version_id=version.id) }}">
+            <button type="submit" class="btn btn-primary">Restore this version as current</button>
+        </form>
+        {% else %}
+        <p>Version not found.</p>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}

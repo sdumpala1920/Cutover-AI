@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Resume · Cutover to AI{% endblock %}
+
+{% block content %}
+<header class="topbar">
+    <div class="topbar-date">
+        <div class="eyebrow">Resume &amp; Positioning Module</div>
+        <h1>Resume</h1>
+    </div>
+</header>
+
+<main class="today-main">
+    {% if current_week and current_week < activation_week %}
+    <section class="session-card nudge-card">
+        <p>This module is designed to kick in around Week {{ activation_week }}, once your portfolio work is further along. Feel free to start early — nothing here is locked.</p>
+    </section>
+    {% endif %}
+
+    <section class="session-card">
+        <h2 class="session-title">Master Resume / Background</h2>
+        {% if master_current %}<p class="muted">Last saved {{ master_current.created_at }}</p>{% endif %}
+        <form method="post" action="{{ url_for('resume.save_master') }}">
+            <textarea name="content" rows="12" class="doc-editor" placeholder="Your full master resume / background...">{{ master_current.content if master_current else '' }}</textarea>
+            <div class="block-controls">
+                <button type="submit" class="btn btn-primary">Save new version</button>
+                <a href="{{ url_for('documents.export', doc_key=master_doc_key) }}" class="btn btn-secondary btn-small">Export .md</a>
+                <a href="{{ url_for('documents.print_view', doc_key=master_doc_key) }}" target="_blank" class="btn btn-secondary btn-small">Print / clean view</a>
+            </div>
+        </form>
+        {% if master_history|length > 1 %}
+        <details class="history-details">
+            <summary>Version history ({{ master_history|length }})</summary>
+            <ul class="history-list">
+                {% for v in master_history %}
+                <li><a href="{{ url_for('documents.view_version', doc_key=master_doc_key, version_id=v.id) }}">{{ v.created_at }}</a></li>
+                {% endfor %}
+            </ul>
+        </details>
+        {% endif %}
+    </section>
+
+    {% for v in variants %}
+    <section class="session-card">
+        <h2 class="session-title">{{ v.role }} variant</h2>
+        {% if v.current %}<p class="muted">Last saved {{ v.current.created_at }}</p>{% endif %}
+        <form method="post" action="{{ url_for('resume.save_variant', role=v.role) }}">
+            <label class="confidence-label">Tailored resume content
+                <textarea name="content" rows="10" class="doc-editor">{{ v.current.content if v.current else '' }}</textarea>
+            </label>
+            <label class="confidence-label">Translation-layer notes — how to phrase cutover/supply-chain experience for this role
+                <textarea name="translation_notes" rows="4" class="doc-editor">{{ v.current.notes if v.current else '' }}</textarea>
+            </label>
+            <div class="block-controls">
+                <button type="submit" class="btn btn-primary">Save new version</button>
+                <a href="{{ url_for('documents.export', doc_key=v.doc_key) }}" class="btn btn-secondary btn-small">Export .md</a>
+                <a href="{{ url_for('documents.print_view', doc_key=v.doc_key) }}" target="_blank" class="btn btn-secondary btn-small">Print / clean view</a>
+            </div>
+        </form>
+        {% if v.history|length > 1 %}
+        <details class="history-details">
+            <summary>Version history ({{ v.history|length }})</summary>
+            <ul class="history-list">
+                {% for hv in v.history %}
+                <li><a href="{{ url_for('documents.view_version', doc_key=v.doc_key, version_id=hv.id) }}">{{ hv.created_at }}</a></li>
+                {% endfor %}
+            </ul>
+        </details>
+        {% endif %}
+    </section>
+    {% endfor %}
+</main>
+{% endblock %}

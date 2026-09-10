@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Interview Log · Cutover to AI{% endblock %}
+
+{% block content %}
+<header class="topbar">
+    <div class="topbar-date">
+        <div class="eyebrow">Interview Readiness</div>
+        <h1>Mock Interview Log</h1>
+    </div>
+</header>
+
+<main class="today-main">
+    <section class="session-card">
+        <p class="muted">Log a self-rated score (0-100) after each mock interview or practice round — this feeds your readiness score. A Coach "practice mode" session on a mock interview topic is a great way to generate one of these.</p>
+        <form method="post" action="{{ url_for('interview.add') }}" class="job-form">
+            <input type="date" name="practiced_on" required>
+            <input type="text" name="topic" placeholder="Topic (e.g. 'Tell me about a time...')" required>
+            <input type="number" name="score" min="0" max="100" placeholder="Self-rated score (0-100)" required>
+            <input type="text" name="notes" placeholder="Notes">
+            <button type="submit" class="btn btn-primary btn-small">Log it</button>
+        </form>
+    </section>
+
+    <section class="session-card">
+        <table class="simple-table">
+            <thead><tr><th>Date</th><th>Topic</th><th>Score</th><th>Notes</th></tr></thead>
+            <tbody>
+                {% for e in entries %}
+                <tr>
+                    <td>{{ e.practiced_on }}</td>
+                    <td>{{ e.topic }}</td>
+                    <td>{{ e.score }}/100</td>
+                    <td class="muted">{{ e.notes }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</main>
+{% endblock %}

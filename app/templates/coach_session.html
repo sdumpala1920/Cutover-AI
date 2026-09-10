@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Coach session · Cutover to AI{% endblock %}
+
+{% block content %}
+<header class="topbar">
+    <div class="topbar-date">
+        <div class="eyebrow">{{ session.mode | capitalize }}{% if session.topic %} — {{ session.topic }}{% endif %}</div>
+        <h1>Coach</h1>
+    </div>
+    <a href="{{ url_for('coach.landing') }}" class="btn btn-secondary btn-small">← All sessions</a>
+</header>
+
+<main class="today-main">
+    <section class="session-card chat-card" id="chat-card" data-session-id="{{ session.id }}"
+              data-started-at="{{ session.started_at }}" data-bitesize-minutes="{{ bitesize_minutes }}"
+              data-active="{{ 'true' if session.status == 'active' else 'false' }}">
+        <div id="chat-log" class="chat-log">
+            {% for m in messages %}
+            <div class="chat-bubble chat-{{ m.role }}">{{ m.content }}</div>
+            {% endfor %}
+        </div>
+
+        {% if session.status == 'active' %}
+        <div id="bitesize-nudge" class="bitesize-nudge" hidden>You've been at this a little while — wrap up with one next step whenever feels right, or keep going if you're in it.</div>
+        <form id="chat-form" class="chat-form">
+            <textarea id="chat-input" rows="2" placeholder="Type your response…" required></textarea>
+            <div class="block-controls">
+                <button type="submit" class="btn btn-primary">Send</button>
+                <button type="submit" form="end-session-form" class="btn btn-secondary">End session</button>
+            </div>
+        </form>
+        <form id="end-session-form" method="post" action="{{ url_for('coach.end', session_id=session.id) }}" hidden></form>
+        {% else %}
+        <div class="session-ended-banner">
+            <strong>Session ended.</strong> Your one next step is above — see you next time.
+        </div>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}

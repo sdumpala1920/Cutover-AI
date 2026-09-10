@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Certifications · Cutover to AI{% endblock %}
+
+{% block content %}
+<header class="topbar">
+    <div class="topbar-date">
+        <div class="eyebrow">Certification Tracker</div>
+        <h1>Certifications</h1>
+    </div>
+</header>
+
+<main class="today-main">
+    {% for cert in certs %}
+    <section class="session-card cert-card">
+        <div class="session-meta">
+            <span class="pill pill-{{ cert.status }}">{{ cert.status.replace('_', ' ') }}</span>
+            {% if cert.target_week %}<span class="pill pill-muted">Target: Week {{ cert.target_week }}</span>{% endif %}
+        </div>
+        <h2 class="session-title">{{ cert.name }}</h2>
+        <p class="session-theme">{{ cert.provider }}</p>
+        <p class="block-desc">{{ cert.notes }}</p>
+
+        <form method="post" action="{{ url_for('certifications.update', cert_key=cert.cert_key) }}" class="cert-form">
+            <label>Status
+                <select name="status">
+                    <option value="not_started" {{ 'selected' if cert.status == 'not_started' }}>Not started</option>
+                    <option value="in_progress" {{ 'selected' if cert.status == 'in_progress' }}>In progress</option>
+                    <option value="done" {{ 'selected' if cert.status == 'done' }}>Done</option>
+                </select>
+            </label>
+            <input type="text" name="notes" value="{{ cert.user_notes }}" placeholder="Your notes (exam date, score, etc.)" class="note-input">
+            <button type="submit" class="btn btn-primary btn-small">Save</button>
+        </form>
+    </section>
+    {% endfor %}
+</main>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Cutover to AI{% endblock %}
+
+{% block content %}
+<header class="topbar">
+    <div class="topbar-date">
+        <div class="eyebrow">Readiness Score Dashboard</div>
+        <h1>{{ composite.score }} / 100</h1>
+    </div>
+</header>
+
+<main class="today-main">
+    <section class="session-card">
+        <h3>Score breakdown</h3>
+        <ul class="score-breakdown">
+            <li>Curriculum completed: {{ composite.modules_pct }}%</li>
+            <li>Hours logged: {{ composite.hours_pct }}% ({{ composite.hours_logged }}h logged)</li>
+            <li>Quiz performance: {{ composite.quiz_pct }}%</li>
+            <li>Portfolio pieces: {{ composite.portfolio_pct }}% ({{ composite.portfolio_done }}/{{ composite.portfolio_total }})</li>
+            <li>Certifications: {{ composite.cert_pct }}%</li>
+            <li>Mock interviews: {{ composite.interview_pct }}% ({{ composite.interview_count }} logged)</li>
+        </ul>
+    </section>
+
+    <section class="session-card">
+        <h3>By category</h3>
+        <div class="bar-chart">
+            {% for c in categories %}
+            <div class="bar-row">
+                <span class="bar-label">{{ c.name }}</span>
+                <div class="bar-track"><div class="bar-fill" style="width: {{ c.percent }}%"></div></div>
+                <span class="bar-pct">{{ c.percent }}%</span>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="session-card">
+        <h3>This week</h3>
+        <ul class="score-breakdown">
+            <li>Hours logged: {{ summary.hours_logged_this_week }}h</li>
+            <li>Streak: 🔥 {{ summary.streak }} days</li>
+            <li>Quiz average: {{ summary.quiz_average if summary.quiz_average is not none else '—' }}{% if summary.quiz_average is not none %}%{% endif %}</li>
+            <li>What's next: {{ summary.whats_next }}</li>
+        </ul>
+    </section>
+</main>
+{% endblock %}
