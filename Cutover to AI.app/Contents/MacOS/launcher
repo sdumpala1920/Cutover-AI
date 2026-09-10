@@ -1,0 +1,8 @@
+#!/bin/bash
+# This .app is a thin wrapper: it opens Terminal running start_mac.command,
+# which lives three directories up from here (Contents/MacOS -> Contents ->
+# the .app bundle -> the project folder). It never moves or copies anything,
+# so keep this .app inside the project folder — make an ALIAS of it on your
+# Desktop (not a copy) if you want an icon there. See README.md.
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+open -a Terminal "$DIR/start_mac.command"

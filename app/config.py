@@ -68,7 +68,11 @@ READINESS_CATEGORIES = {
 # from the environment (or a .env file — see .env.example).
 # ---------------------------------------------------------------------
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-COACH_MODEL = os.environ.get("COACH_MODEL", "claude-opus-5")
+# Sonnet 5, not Opus: this is a warm conversational coach, not a hard
+# reasoning/agentic task, and it's billed to the user's own personal API
+# key — Sonnet is ~5x cheaper per token and plenty capable for the job.
+# Override with COACH_MODEL in .env if you want Opus-tier quality instead.
+COACH_MODEL = os.environ.get("COACH_MODEL", "claude-sonnet-5")
 COACH_EFFORT = os.environ.get("COACH_EFFORT", "medium")  # low|medium|high|xhigh|max
 COACH_MAX_TOKENS = int(os.environ.get("COACH_MAX_TOKENS", "1024"))
 COACH_BITESIZE_MINUTES = 10  # gentle "wrap up soon" nudge threshold

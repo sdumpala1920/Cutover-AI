@@ -26,6 +26,26 @@ Full requirements live in [`docs/SPEC.md`](docs/SPEC.md).
 default the first time — see **Manual setup** below, or right-click →
 Open once to approve it.)
 
+### Putting a real icon on your Desktop
+
+**Mac:** there's a proper app bundle — **`Cutover to AI.app`** — right next
+to `start_mac.command`, with its own icon. Don't move or copy it out of
+this folder (it needs to stay next to the project files); instead, make an
+*alias* and put that on your Desktop:
+1. Right-click **`Cutover to AI.app`** → **Make Alias**.
+2. Drag the alias (the file with the little arrow badge) to your Desktop.
+3. Double-click it anytime — it opens a Terminal window running the app
+   and opens your browser to it automatically.
+
+(First launch: macOS may say it's from an unidentified developer since
+it's unsigned — right-click → **Open** once to approve it, then it opens
+normally from then on, alias included.)
+
+**Windows:** right-click **`start_windows.bat`** → **Send to** → **Desktop
+(create shortcut)**. Optionally give the shortcut a nicer icon: right-click
+it → **Properties** → **Change Icon...** → **Browse** → pick
+`desktop-icon\cutover-to-ai.ico`.
+
 ### Using it on your phone too
 
 With the app running on your computer:
@@ -86,7 +106,9 @@ Kept deliberately boring so it never gets in the way:
   so it can be rewritten anytime as you research further, without
   touching code or losing logged progress.
 - **AI:** the Anthropic API (`anthropic` Python SDK), used only by the
-  Coach module, via `claude-opus-5` by default (configurable in `.env`).
+  Coach module, via `claude-sonnet-5` by default — cheaper than Opus and
+  plenty capable for a conversational coach, since you're paying for this
+  yourself; override `COACH_MODEL` in `.env` if you want Opus-tier quality.
 
 ## How the daily engine works
 
@@ -135,6 +157,10 @@ app itself, only felt through tone and style):
 run.py                     entry point (python run.py)
 start_mac.command          double-click launcher (macOS)
 start_windows.bat          double-click launcher (Windows)
+Cutover to AI.app/          real macOS app bundle wrapping start_mac.command —
+                             make a Desktop alias of this, not a copy (see above)
+desktop-icon/
+  cutover-to-ai.ico          optional custom icon for a Windows Desktop shortcut
 .env.example                copy to .env for your Anthropic API key (Coach only)
 docs/SPEC.md                 full feature spec (living document)
 app/
