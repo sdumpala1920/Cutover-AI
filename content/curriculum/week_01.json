@@ -1,0 +1,134 @@
+{
+  "week": 1,
+  "theme": "AI Fundamentals",
+  "role_focus": ["Strategy", "PMO", "CoS", "Governance"],
+  "status": "seeded",
+  "days": [
+    {
+      "day": 1,
+      "title": "Orientation + What This 12 Weeks Actually Builds",
+      "role_tags": ["Strategy", "PMO"],
+      "blocks": [
+        {
+          "id": "ai-essentials-m1",
+          "title": "Block 1 (60 min): Watch Google AI Essentials — Module 1 (Intro to AI)",
+          "description": "Watch Module 1 in full. Capture 3 notes: (1) how the course defines AI vs. machine learning vs. generative AI, (2) one example of AI already used in enterprise operations, (3) one open question you still have.",
+          "target_minutes": 60,
+          "resources": ["Google AI Essentials (Coursera) — Module 1: Introduction to AI"]
+        },
+        {
+          "id": "setup-and-target-roles",
+          "title": "Block 2 (60 min): Set up your tracking system + lock target-role language",
+          "description": "Create your \"AI Vocabulary Log\" (a running doc/notes page — you'll add to it daily). Write one paragraph: why you're doing this transition and what you want to be doing in 12 weeks. Then open Anthropic's \"Technical Program Management, Alignment\" job posting and copy 3 phrases from it verbatim into a new \"target-role language\" note — this is the vocabulary you'll be translating your cutover experience into over the next 12 weeks.",
+          "target_minutes": 60,
+          "resources": ["Anthropic careers page — search \"Technical Program Management, Alignment\""]
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "title": "Responsible AI Basics + Core Vocabulary",
+      "role_tags": ["Governance", "Strategy"],
+      "blocks": [
+        {
+          "id": "ai-essentials-m2",
+          "title": "Block 1 (60 min): Watch Google AI Essentials — Module 2 (Use AI responsibly)",
+          "description": "Watch Module 2. Capture 3 notes on responsible-AI concepts introduced (bias, privacy, transparency, human oversight) — these will resurface directly in Weeks 7-8 (AI Governance).",
+          "target_minutes": 60,
+          "resources": ["Google AI Essentials (Coursera) — Module 2: Use AI responsibly"]
+        },
+        {
+          "id": "vocab-15-terms",
+          "title": "Block 2 (60 min): Build your core AI vocabulary (15 terms)",
+          "description": "In your Vocabulary Log, define in your own words: AI, machine learning, LLM, generative AI, foundation model, prompt, hallucination, fine-tuning, RAG, inference, training data, parameters, token, AI agent, alignment. For at least 5 of these, write a one-sentence example using a supply chain or procurement scenario you know well.",
+          "target_minutes": 60,
+          "resources": []
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "title": "Prompting Basics + Start Your Daily AI News Habit",
+      "role_tags": ["Strategy"],
+      "blocks": [
+        {
+          "id": "ai-essentials-m3",
+          "title": "Block 1 (60 min): Watch Google AI Essentials — Module 3 (Maximize AI's helpfulness)",
+          "description": "Watch Module 3. Capture 3 notes on what makes a prompt effective and how to iterate on AI output.",
+          "target_minutes": 60,
+          "resources": ["Google AI Essentials (Coursera) — Module 3: Maximize AI's helpfulness"]
+        },
+        {
+          "id": "news-habit-setup",
+          "title": "Block 2 (60 min): Set up your daily AI news habit",
+          "description": "Pick 2-3 sources you'll check daily going forward (e.g. TLDR AI newsletter, The Batch by DeepLearning.AI, Anthropic and OpenAI blogs). Subscribe to each. Read today's items and log 3 headline takeaways in your Vocabulary Log under a new \"AI News\" section — keep adding to this section daily for the rest of the program.",
+          "target_minutes": 60,
+          "resources": ["TLDR AI newsletter", "The Batch (DeepLearning.AI)", "Anthropic News", "OpenAI News"]
+        }
+      ]
+    },
+    {
+      "day": 4,
+      "title": "AI For Everyone — What AI Can (and Can't) Do",
+      "role_tags": ["Strategy", "PMO"],
+      "blocks": [
+        {
+          "id": "afe-week1",
+          "title": "Block 1 (60 min): Watch DeepLearning.AI \"AI For Everyone\" — Week 1",
+          "description": "Watch all Week 1 videos (What is AI, terminology, what AI can/can't do today). Capture 3 notes.",
+          "target_minutes": 60,
+          "resources": ["DeepLearning.AI — AI For Everyone, Week 1"]
+        },
+        {
+          "id": "vocab-reconcile",
+          "title": "Block 2 (60 min): Reconcile vocabulary + add today's news",
+          "description": "Compare today's terminology against your Google AI Essentials notes from Day 1-2 — note any overlaps or contradictions and resolve them in your Vocabulary Log. Add today's AI news takeaways.",
+          "target_minutes": 60,
+          "resources": []
+        }
+      ]
+    },
+    {
+      "day": 5,
+      "title": "AI For Everyone — Building AI Projects & Transformation Playbooks",
+      "role_tags": ["Strategy", "PMO"],
+      "blocks": [
+        {
+          "id": "afe-week2",
+          "title": "Block 1 (60 min): Watch DeepLearning.AI \"AI For Everyone\" — Week 2",
+          "description": "Watch all Week 2 videos (building AI projects, the AI transformation playbook, case studies). Capture 3 notes, focused on the transformation playbook steps.",
+          "target_minutes": 60,
+          "resources": ["DeepLearning.AI — AI For Everyone, Week 2"]
+        },
+        {
+          "id": "playbook-draft-seed",
+          "title": "Block 2 (60 min): Draft seed — \"If I ran an AI rollout for a procurement org\"",
+          "description": "Draft a rough one-page bulleted outline: if you led an AI transformation for an Oracle Cloud procurement/inventory organization, what would the playbook look like? Don't overthink it — this is a first draft seed for Portfolio Project #1 in Weeks 5-6, not a finished plan.",
+          "target_minutes": 60,
+          "resources": []
+        }
+      ]
+    },
+    {
+      "day": 6,
+      "title": "Finish Google AI Essentials + Week 1 Synthesis",
+      "role_tags": ["Strategy", "PMO", "CoS", "Governance"],
+      "blocks": [
+        {
+          "id": "ai-essentials-m4",
+          "title": "Block 1 (60 min): Watch Google AI Essentials — Module 4 (final module) + mark course complete",
+          "description": "Finish the course. Once done, update your Certification Tracker entry for \"Google AI Essentials\" to Done.",
+          "target_minutes": 60,
+          "resources": ["Google AI Essentials (Coursera) — Module 4"]
+        },
+        {
+          "id": "week1-synthesis",
+          "title": "Block 2 (60 min): Week 1 synthesis + reflection",
+          "description": "Finalize your Vocabulary Log so it has 20+ clean definitions. Write a half-page reflection: what surprised you this week, what you still don't understand, and one thing you're more confident about now than on Day 1. Skim ahead at Week 2's themes (foundation models, RAG, AI agents) so Monday isn't a cold start.",
+          "target_minutes": 60,
+          "resources": []
+        }
+      ]
+    }
+  ]
+}

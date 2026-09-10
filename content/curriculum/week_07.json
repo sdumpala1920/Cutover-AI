@@ -1,0 +1,12 @@
+{
+  "week": 7,
+  "theme": "AI Program Management & Governance \u2014 Evaluation Checkpoints & Risk Frameworks",
+  "role_focus": [
+    "PMO",
+    "Governance",
+    "CoS"
+  ],
+  "status": "placeholder",
+  "days": [],
+  "notes": "Model evaluation checkpoints in an AI program lifecycle, responsible AI / risk frameworks (e.g. NIST AI RMF, EU AI Act at a conceptual level) \u2014 framed as program-management checkpoints, analogous to cutover go/no-go gates."
+}

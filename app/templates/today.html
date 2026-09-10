@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block title %}Today · Cutover to AI{% endblock %}
+
+{% block content %}
+<header class="topbar">
+    <div class="topbar-date">
+        <div class="eyebrow">Today</div>
+        <h1>{{ today_label }}</h1>
+    </div>
+
+    <div class="topbar-stats">
+        <div class="stat streak" title="Consecutive study days with logged work">
+            <span class="stat-value">🔥 {{ streak }}</span>
+            <span class="stat-label">day streak</span>
+        </div>
+        {% if week_progress %}
+        <div class="stat ring-wrap" title="This week's logged minutes vs. target">
+            <div class="ring" style="--pct: {{ week_progress.percent }}">
+                <span>{{ week_progress.percent }}%</span>
+            </div>
+            <span class="stat-label">Week {{ week_progress.week }}</span>
+        </div>
+        {% endif %}
+    </div>
+</header>
+
+<main class="today-main">
+    {% if resolution.kind == 'day' %}
+        {% set day = resolution.day %}
+        <section class="session-card">
+            <div class="session-meta">
+                <span class="pill">Week {{ day.week }} · Day {{ day.day }}</span>
+                {% for tag in day.role_tags %}
+                    <span class="pill pill-muted">{{ tag }}</span>
+                {% endfor %}
+                {% if day.status == 'completed' %}
+                    <span class="pill pill-done">Done</span>
+                {% endif %}
+            </div>
+            <h2 class="session-title">{{ day.title }}</h2>
+            <p class="session-theme">{{ day.week_theme }}</p>
+
+            <ol class="block-list">
+                {% for block in day.blocks %}
+                <li class="block {{ 'block-done' if block.status == 'completed' else '' }} {{ 'block-active' if block.status == 'in_progress' else '' }}">
+                    <div class="block-header">
+                        <h3>{{ block.title }}</h3>
+                        <span class="block-minutes">{{ block.target_minutes }} min target</span>
+                    </div>
+                    <p class="block-desc">{{ block.description }}</p>
+                    {% if block.resources %}
+                    <ul class="block-resources">
+                        {% for r in block.resources %}<li>{{ r }}</li>{% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    <div class="block-controls">
+                        {% if block.status == 'pending' %}
+                            <form method="post" action="{{ url_for('today.start_block', block_key=block.block_key) }}">
+                                <button type="submit" class="btn btn-primary">▶ Start block</button>
+                            </form>
+                        {% elif block.status == 'in_progress' %}
+                            <div class="timer-live" data-started-at="{{ block.timer_started_at }}">
+                                <span class="timer-display">00:00:00</span>
+                            </div>
+                            <button type="button" class="btn btn-stop" data-toggle-stop="{{ block.block_key }}">■ Stop</button>
+                            <form method="post" action="{{ url_for('today.stop_block', block_key=block.block_key) }}"
+                                  class="stop-form" id="stop-form-{{ block.block_key }}" hidden>
+                                <label class="confidence-label">Confidence
+                                    <span class="confidence-stars">
+                                        {% for n in range(1,6) %}
+                                        <label><input type="radio" name="confidence" value="{{ n }}" {{ 'checked' if n == 3 }}> {{ n }}</label>
+                                        {% endfor %}
+                                    </span>
+                                </label>
+                                <input type="text" name="note" maxlength="240"
+                                       placeholder="One line: what did you do / learn?" class="note-input">
+                                <button type="submit" class="btn btn-primary btn-small">Save &amp; complete</button>
+                            </form>
+                        {% else %}
+                            <div class="block-summary">
+                                <span>✓ {{ (block.accumulated_seconds // 60) }} min logged</span>
+                                {% if block.last_confidence %}<span>· confidence {{ block.last_confidence }}/5</span>{% endif %}
+                                {% if block.last_note %}<span class="block-note">“{{ block.last_note }}”</span>{% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </li>
+                {% endfor %}
+            </ol>
+        </section>
+    {% else %}
+        <section class="session-card awaiting-content">
+            <h2>Week 1 curriculum complete 🎉</h2>
+            {% if resolution.week %}
+            <p>
+                Next up is <strong>Week {{ resolution.week.week }}: {{ resolution.week.theme }}</strong>,
+                which is still a placeholder — seed its daily content to keep going.
+            </p>
+            {% if resolution.week.notes %}<p class="muted">{{ resolution.week.notes }}</p>{% endif %}
+            {% else %}
+            <p>All 12 weeks of curriculum are seeded and complete. Nothing left to schedule.</p>
+            {% endif %}
+        </section>
+    {% endif %}
+</main>
+
+<footer class="projection-bar">
+    <div>
+        <span class="proj-label">On-track finish</span>
+        <strong>{{ projection.baseline_end | fmt_date }}</strong>
+    </div>
+    <div>
+        <span class="proj-label">Projected finish</span>
+        <strong class="{{ 'proj-behind' if projection.delta_days > 0 else 'proj-ontrack' }}">
+            {{ projection.projected_end | fmt_date }}
+            {% if projection.delta_days > 0 %}(+{{ projection.delta_days }}d){% elif projection.delta_days < 0 %}({{ projection.delta_days }}d){% endif %}
+        </strong>
+    </div>
+    <div>
+        <span class="proj-label">Curriculum days done</span>
+        <strong>{{ projection.completed_slots }} / {{ projection.total_slots }}</strong>
+    </div>
+</footer>
+{% endblock %}

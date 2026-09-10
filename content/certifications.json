@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Google AI Essentials",
+    "provider": "Google / Coursera",
+    "status": "in_progress",
+    "target_week": 1,
+    "notes": "Completed across Week 1's daily blocks (Days 1, 2, 3, 6)."
+  },
+  {
+    "name": "DeepLearning.AI — AI For Everyone",
+    "provider": "DeepLearning.AI / Coursera",
+    "status": "in_progress",
+    "target_week": 2,
+    "notes": "Started Week 1 Day 4-5; finishes in Week 2."
+  },
+  {
+    "name": "Google Cloud Generative AI Leader",
+    "provider": "Google Cloud",
+    "status": "not_started",
+    "target_week": 8,
+    "notes": "Primary certification. Non-technical, strategy-first — explicitly designed for leaders evaluating/overseeing GenAI initiatives, not a coding exam. Schedule in Week 4, sit in Week 8."
+  },
+  {
+    "name": "AWS AI Practitioner",
+    "provider": "AWS",
+    "status": "not_started",
+    "target_week": null,
+    "notes": "Optional secondary/broad-market credential. More technical/engineering-flavored than the Google Cloud GenAI Leader — deprioritize unless targeting a specific AWS-based employer."
+  }
+]

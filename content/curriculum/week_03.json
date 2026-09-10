@@ -1,0 +1,11 @@
+{
+  "week": 3,
+  "theme": "Enterprise AI & Applied AI Concepts \u2014 Foundation Models & RAG",
+  "role_focus": [
+    "Strategy",
+    "PMO"
+  ],
+  "status": "placeholder",
+  "days": [],
+  "notes": "Foundation model landscape (what a foundation model is, major providers and how they differ), retrieval-augmented generation (RAG) explained for a non-engineer, and enterprise use-case patterns for each \u2014 tie back to procurement/supply chain examples wherever possible."
+}
