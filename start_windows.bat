@@ -19,6 +19,27 @@ if errorlevel 1 (
     goto :fail
 )
 
+REM "where python" can succeed even when Python ISN'T really installed —
+REM Windows ships a fake "python" stub that just opens the Microsoft
+REM Store. Actually run it and check the output looks like a real
+REM version string ("Python 3.x.x"), not the stub's redirect message.
+for /f "delims=" %%v in ('python --version 2^>^&1') do set "PYVER=%%v"
+echo %PYVER% | findstr /r "^Python [0-9]" >nul
+if errorlevel 1 (
+    echo Windows' built-in "python" shortcut is intercepting this instead
+    echo of running real Python ^(it said: %PYVER%^).
+    echo.
+    echo Fix:
+    echo   1. Install real Python from https://www.python.org/downloads
+    echo      IMPORTANT: check "Add python.exe to PATH" during setup.
+    echo   2. Turn off the Windows stub so it stops intercepting: Settings
+    echo      ^> Apps ^> Advanced app settings ^> App execution aliases ^>
+    echo      turn OFF "python.exe" and "python3.exe".
+    echo   3. Close this window completely, then double-click this file
+    echo      again ^(PATH changes only apply to new windows^).
+    goto :fail
+)
+
 if not exist "run.py" (
     echo run.py wasn't found in this folder — this file needs to stay
     echo inside the Cutover-AI project folder, not be moved out on its own.
